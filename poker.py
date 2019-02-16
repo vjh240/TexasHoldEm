@@ -120,62 +120,6 @@ def tie_breaker(hand1,hand2,rank):
 #     else:
 #         return 3
 
-def unit_test_hands():
-    # high card
-    test_hand = ["2c", "4c", "6d", "8d", "10s"]
-    if hand_strength(test_hand) != 0:
-        print("High Card broken")
-
-    # one pair
-    test_hand = ["2c", "4c", "4c", "5d", "6c"]
-    if hand_strength(test_hand) != 1:
-        print("One Pair broken")
-
-    # two pair
-    test_hand = ["2c", "2d", "4c", "4d", "6c"]
-    if hand_strength(test_hand) != 2:
-        print("Two Pair broken")
-
-    # three of a kind
-    test_hand = ["2c", "4c", "4c", "4d", "6c"]
-    if hand_strength(test_hand) != 3:
-        print("Three of a Kind broken")
-
-    # straight  a-5
-    test_hand = ["14d", "2c", "3c", "4c", "5c"]
-    if hand_strength(test_hand) != 4:
-        print("Straight A-5 broken")
-
-    # straight  10-a
-    test_hand = ["14d", "10c", "11c", "12c", "13c"]
-    if hand_strength(test_hand) != 4:
-        print("Straight 10-A broken")
-
-    # flush
-    test_hand = ["2c", "10c", "11c", "12c", "13c"]
-    if hand_strength(test_hand) != 5:
-        print("Flush broken")
-
-    # full house
-    test_hand = ["14d", "14c", "14s", "12c", "12d"]
-    if hand_strength(test_hand) != 6:
-        print("Fullhouse broken")
-
-    # four of a kind
-    test_hand = ["14d", "14c", "14s", "14h", "13c"]
-    if hand_strength(test_hand) != 7:
-        print("Four of a Kind broken")
-
-    # straight flush a-5
-    test_hand = ["14c", "2c", "3c", "4c", "5c"]
-    if hand_strength(test_hand) != 8:
-        print("Straight Flush broken")
-
-    # straight flush 10-a
-    test_hand = ["14c", "10c", "11c", "12c", "13c"]
-    if hand_strength(test_hand) != 8:
-        print("Royal Flush broken")
-
 deck = FULL_DECK.copy()
 hand, deck = deal_hand(deck)
 community_cards, deck = deal_community_cards(deck)
@@ -202,8 +146,6 @@ print("Wins: " + str(win))
 print("Ties: " + str(tie))
 print("Losses: " + str(loss))
 
-unit_test_hands()
-
 
 # a possible opportunity to remove iterations:
-# if the players best hand is the river, they will tie with all other hand possiblilities in which the river is their best hand
+# if the players best hand is the river, they will tie with all other hand possibilities in which the river is their best hand
