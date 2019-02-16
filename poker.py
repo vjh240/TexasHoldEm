@@ -206,4 +206,4 @@ unit_test_hands()
 
 
 # a possible opportunity to remove iterations:
-# if the players best hand is the river, they will tie with all other hand possiblilities in which the river is their best hand
+# if the players best hand is the river, they will tie with all other hand possibilities in which the river is their best hand
