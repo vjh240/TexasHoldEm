@@ -79,7 +79,6 @@ def rank(hand,community_cards):
             best_hand = tie_breaker(h,max_hand,max_rank)
             if best_hand == 1:
                 max_hand = h
-
     return max_rank, max_hand
 
 def tie_breaker(hand1,hand2,rank):
@@ -87,6 +86,8 @@ def tie_breaker(hand1,hand2,rank):
     numbers_hand1.sort()
     numbers_hand2 = [int(n[:len(n) - 1]) for n in hand2]
     numbers_hand2.sort()
+    if rank == 4:
+        return straight_tie(numbers_hand1,numbers_hand2)
     return 1
     # print(numbers_hand1)
     # print(numbers_hand2)
@@ -112,13 +113,13 @@ def tie_breaker(hand1,hand2,rank):
     # else:
     #     print("Something went wrong")
 
-# def straight_tie(numbers_hand1,numbers_hand2):
-#     if numbers_hand1[4]>numbers_hand2[4]:
-#         return 1
-#     elif numbers_hand1[4]<numbers_hand2[4]:
-#         return 2
-#     else:
-#         return 3
+def straight_tie(numbers_hand1,numbers_hand2):
+    if numbers_hand1[4]>numbers_hand2[4]:
+        return 1
+    elif numbers_hand1[4]<numbers_hand2[4]:
+        return 2
+    else:
+        return 3
 
 deck = FULL_DECK.copy()
 hand, deck = deal_hand(deck)
@@ -127,7 +128,8 @@ rank_player_hand, player_hand = rank(hand,community_cards)
 print("You were dealt a " + str(hand))
 print(community_cards)
 print("You have " + str(RANKED_HANDS[rank_player_hand]))
-print(player_hand)
+print("best hand = " + str(player_hand))
+
 hidden_hands = set(combinations(deck,2))
 win = 0
 loss = 0
