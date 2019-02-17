@@ -1,4 +1,4 @@
-from poker import hand_strength, straight_tie, full_house_tie, four_of_a_kind_tie, high_card_tie
+from poker import hand_strength, straight_tie, full_house_tie, four_of_a_kind_tie, high_card_tie, three_of_a_kind_tie, two_pair_tie, one_pair_tie
 import unittest
 from unittest import TestCase
 
@@ -132,6 +132,113 @@ class TestTieBreakers(TestCase):
         result = high_card_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,3)
 
-                
+    def test_three_of_a_kind_tie_breaker1(self):
+        numbers_hand1 = [3, 3, 3, 6, 7]
+        numbers_hand2 = [2, 2, 2, 4, 5]
+        result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_three_of_a_kind_tie_breaker2(self):
+        numbers_hand1 = [2, 2, 2, 7, 8]
+        numbers_hand2 = [6, 6, 6, 4, 3]
+        result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_two_pair_tie_breaker1(self): #player 1 high pair wins
+        numbers_hand1 = [2, 3, 3, 7, 7]
+        numbers_hand2 = [2, 4, 4, 6, 6]
+        result = two_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_two_pair_tie_breaker2(self): #player 1 low pair wins
+        numbers_hand1 = [2, 6, 6, 7, 7]
+        numbers_hand2 = [2, 5, 5, 7, 7]
+        result = two_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_two_pair_tie_breaker3(self): #player 1 kicker wins
+        numbers_hand1 = [3, 6, 6, 7, 7]
+        numbers_hand2 = [2, 6, 6, 7, 7]
+        result = two_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_two_pair_tie_breaker4(self): #player 2 high pair wins
+        numbers_hand1 = [2, 3, 3, 7, 7]
+        numbers_hand2 = [2, 4, 4, 8, 8]
+        result = two_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_two_pair_tie_breaker5(self): #player 2 low pair wins
+        numbers_hand1 = [2, 4, 4, 8, 8]
+        numbers_hand2 = [3, 6, 6, 8, 8]
+        result = two_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_two_pair_tie_breaker6(self): #player 2 kicker
+        numbers_hand1 = [2, 5, 5, 7, 7]
+        numbers_hand2 = [4, 5, 5, 7, 7]
+        result = two_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_two_pair_tie_breaker7(self): #tie
+        numbers_hand1 = [3, 6, 6, 8, 8]
+        numbers_hand2 = [3, 6, 6, 8, 8]
+        result = two_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 3)
+
+    def test_one_pair_tie_breaker1(self): #player 1 pair wins
+        numbers_hand1 = [3, 5, 6, 8, 8]
+        numbers_hand2 = [3, 5, 6, 7, 7]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_one_pair_tie_breaker2(self): #player 1 kicker wins
+        numbers_hand1 = [3, 5, 7, 8, 8]
+        numbers_hand2 = [3, 5, 6, 8, 8]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_one_pair_tie_breaker3(self): #player 1 kicker2 wins
+        numbers_hand1 = [3, 6, 7, 8, 8]
+        numbers_hand2 = [3, 5, 7, 8, 8]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_one_pair_tie_breaker4(self): #player 1 kicker 3 wins
+        numbers_hand1 = [3, 5, 6, 8, 8]
+        numbers_hand2 = [2, 5, 6, 8, 8]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_one_pair_tie_breaker5(self): #player 2 pair wins
+        numbers_hand1 = [3, 5, 6, 8, 8]
+        numbers_hand2 = [3, 5, 6, 9, 9]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_one_pair_tie_breaker6(self): #player 2 kicker wins
+        numbers_hand1 = [3, 5, 6, 8, 8]
+        numbers_hand2 = [3, 5, 7, 8, 8]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_one_pair_tie_breaker7(self): #player 2 kicker2 wins
+        numbers_hand1 = [3, 4, 7, 8, 8]
+        numbers_hand2 = [3, 5, 7, 8, 8]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_one_pair_tie_breaker8(self): #player 2 kicker 3 wins
+        numbers_hand1 = [3, 5, 6, 8, 8]
+        numbers_hand2 = [4, 5, 6, 8, 8]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_one_pair_tie_breaker8(self): #tie
+        numbers_hand1 = [4, 5, 6, 8, 8]
+        numbers_hand2 = [4, 5, 6, 8, 8]
+        result = one_pair_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 3)
+
 if __name__ == '__main__':
     unittest.main()

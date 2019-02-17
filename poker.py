@@ -86,32 +86,26 @@ def tie_breaker(hand1,hand2,rank):
     numbers_hand1.sort()
     numbers_hand2 = [int(n[:len(n) - 1]) for n in hand2]
     numbers_hand2.sort()
-    if rank == 4:
-        return straight_tie(numbers_hand1,numbers_hand2)
-    return 1
-    # print(numbers_hand1)
-    # print(numbers_hand2)
-    # print(rank)
-    # if rank == 0:
-    #     high_card_tie(numbers_hand1,numbers_hand2)
-    # elif rank == 1:
-    #     one_pair_tie(numbers_hand1,numbers_hand2)
-    # elif rank == 2:
-    #     two_pair(numbers_hand1,numbers_hand2)
-    # elif rank == 3:
-    #     three_of_a_kind_tie(numbers_hand1,numbers_hand2)
-    # elif rank == 4:
-    #     straight_tie(numbers_hand1,numbers_hand2)
-    # elif rank == 5:
-    #     high_card_tie(numbers_hand1,numbers_hand2)
-    # elif rank == 6:
-    #     full_house_tie(numbers_hand1,numbers_hand2)
-    # elif rank == 7:
-    #     four_of_a_kind_tie(numbers_hand1,numbers_hand2)
-    # elif rank == 8:
-    #     straight_tie(numbers_hand1,numbers_hand2)
-    # else:
-    #     print("Something went wrong")
+    if rank == 0:
+        high_card_tie(numbers_hand1,numbers_hand2)
+    elif rank == 1:
+        one_pair_tie(numbers_hand1,numbers_hand2)
+    elif rank == 2:
+        two_pair_tie(numbers_hand1,numbers_hand2)
+    elif rank == 3:
+        three_of_a_kind_tie(numbers_hand1,numbers_hand2)
+    elif rank == 4:
+        straight_tie(numbers_hand1,numbers_hand2)
+    elif rank == 5:
+        high_card_tie(numbers_hand1,numbers_hand2)
+    elif rank == 6:
+        full_house_tie(numbers_hand1,numbers_hand2)
+    elif rank == 7:
+        four_of_a_kind_tie(numbers_hand1,numbers_hand2)
+    elif rank == 8:
+        straight_tie(numbers_hand1,numbers_hand2)
+    else:
+        print ("ERROR")
 
 def straight_tie(numbers_hand1,numbers_hand2):
     if numbers_hand1[4]>numbers_hand2[4]:
@@ -163,14 +157,85 @@ def high_card_tie(numbers_hand1,numbers_hand2):
             return 2
     return 3
 
+def three_of_a_kind_tie(numbers_hand1,numbers_hand2):
+    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    triple1 = numbers_hand1[frequency1.index(3)]
+    triple2 = numbers_hand2[frequency2.index(3)]
+    if triple1 > triple2:
+        return 1
+    elif triple2 > triple1:
+        return 2
+
+def two_pair_tie(numbers_hand1,numbers_hand2):
+    numbers_hand1.sort(reverse=True)
+    numbers_hand2.sort(reverse=True)
+    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    pair1_hand1 = numbers_hand1[frequency1.index(2)]
+    pair1_hand2 = numbers_hand2[frequency2.index(2)]
+    if pair1_hand1 > pair1_hand2:
+        return 1
+    elif pair1_hand2 > pair1_hand1:
+        return 2
+    look_for_next_pair1 = frequency1.index(2) + 2
+    look_for_next_pair2 = frequency2.index(2) + 2
+    pair2_hand1 = numbers_hand1[frequency1.index(2,look_for_next_pair1)]
+    pair2_hand2 = numbers_hand2[frequency2.index(2,look_for_next_pair2)]
+    if pair2_hand1 > pair2_hand2:
+        return 1
+    elif pair2_hand2 > pair2_hand1:
+        return 2
+    kicker_hand1 = numbers_hand1[frequency1.index(1)]
+    kicker_hand2 = numbers_hand2[frequency2.index(1)]
+    if kicker_hand1 > kicker_hand2:
+        return 1
+    elif kicker_hand2 > kicker_hand1:
+        return 2
+    return 3
+
+def one_pair_tie(numbers_hand1,numbers_hand2):
+    numbers_hand1.sort(reverse=True)
+    numbers_hand2.sort(reverse=True)
+    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    pair_hand1 = numbers_hand1[frequency1.index(2)]
+    pair_hand2 = numbers_hand2[frequency2.index(2)]
+    if pair_hand1 > pair_hand2:
+        return 1
+    elif pair_hand2 > pair_hand1:
+        return 2
+    kicker1_hand1 = numbers_hand1[frequency1.index(1)]
+    kicker1_hand2 = numbers_hand2[frequency2.index(1)]
+    if kicker1_hand1 > kicker1_hand2:
+        return 1
+    elif kicker1_hand2 > kicker1_hand1:
+        return 2
+    look_for_second_kicker1 = frequency1.index(1) + 1
+    look_for_second_kicker2 = frequency2.index(1) + 1
+    kicker2_hand1 = numbers_hand1[frequency1.index(1,look_for_second_kicker1)]
+    kicker2_hand2 = numbers_hand2[frequency2.index(1,look_for_second_kicker2)]
+    if kicker2_hand1 > kicker2_hand2:
+        return 1
+    elif kicker2_hand2 > kicker2_hand1:
+        return 2
+    look_for_third_kicker1 = frequency1.index(1,look_for_second_kicker1) + 1
+    look_for_third_kicker2 = frequency2.index(1,look_for_second_kicker2) + 1
+    kicker3_hand1 = numbers_hand1[frequency1.index(1, look_for_third_kicker1)]
+    kicker3_hand2 = numbers_hand2[frequency2.index(1, look_for_third_kicker2)]
+    if kicker3_hand1 > kicker3_hand2:
+        return 1
+    elif kicker3_hand2 > kicker3_hand1:
+        return 2
+    return 3
+
 deck = FULL_DECK.copy()
 hand, deck = deal_hand(deck)
 community_cards, deck = deal_community_cards(deck)
 rank_player_hand, player_hand = rank(hand,community_cards)
 print("You were dealt a " + str(hand))
 print(community_cards)
-print("You have " + str(RANKED_HANDS[rank_player_hand]))
-print("best hand = " + str(player_hand))
+print("You have " + str(RANKED_HANDS[rank_player_hand]) + " with the cards " + str(player_hand))
 
 hidden_hands = set(combinations(deck,2))
 win = 0
@@ -182,13 +247,20 @@ for h in hidden_hands:
     if rank_hidden_hand > rank_player_hand:
         loss += 1
     elif rank_hidden_hand == rank_player_hand:
-        tie += 1
+        hidden_tie_break_result = tie_breaker(player_hand,hidden_hand,rank_player_hand)
+        if hidden_tie_break_result == 1:
+            win +=1
+        elif hidden_tie_break_result == 2:
+            loss += 1
+        else:
+            tie += 1
     else:
         win += 1
 
-print("Wins: " + str(win))
-print("Ties: " + str(tie))
-print("Losses: " + str(loss))
+print("Outcome Probability:")
+print("Win:  " + '{0:.4%}'.format(win/len(hidden_hands)))
+print("Tie:  " + '{0:.4%}'.format(tie/len(hidden_hands)))
+print("Loss: " + '{0:.4%}'.format(loss/len(hidden_hands)))
 
 
 # a possible opportunity to remove iterations:
