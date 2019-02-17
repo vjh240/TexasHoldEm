@@ -1,4 +1,4 @@
-from poker import hand_strength, straight_tie
+from poker import hand_strength, straight_tie, full_house_tie
 import unittest
 from unittest import TestCase
 
@@ -65,6 +65,19 @@ class TestTieBreakers(TestCase):
         numbers_hand2 = ["2","3","4","5","6"]
         result = straight_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,3)
+
+    def test_full_house_tie_breaker1(self):
+        numbers_hand1 = ["3","3","3","7","7"]
+        numbers_hand2 = ["2","2","2","5","5"]
+        result = full_house_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_full_house_tie_breaker2(self):
+        numbers_hand1 = ["2","2","2","8","8"]
+        numbers_hand2 = ["6","6","6","3","3"]
+        result = full_house_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,2)
+
 
 
 if __name__ == '__main__':

@@ -121,6 +121,23 @@ def straight_tie(numbers_hand1,numbers_hand2):
     else:
         return 3
 
+def full_house_tie(numbers_hand1,numbers_hand2):
+    frequency_high1 = numbers_hand1.count(numbers_hand1[4])
+    if frequency_high1 == 3:
+        triple1 = numbers_hand1[4]
+    else:
+        triple1 = numbers_hand1[0]
+    frequency_high2 = numbers_hand2.count(numbers_hand1[4])
+    if frequency_high2 == 3:
+        triple2 = numbers_hand2[4]
+    else:
+        triple2 = numbers_hand2[0]
+    if triple1 > triple2:
+        return 1
+    else:
+        return 2
+
+
 deck = FULL_DECK.copy()
 hand, deck = deal_hand(deck)
 community_cards, deck = deal_community_cards(deck)
