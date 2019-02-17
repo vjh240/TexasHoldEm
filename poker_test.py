@@ -1,4 +1,4 @@
-from poker import hand_strength
+from poker import hand_strength, straight_tie
 import unittest
 from unittest import TestCase
 
@@ -46,6 +46,25 @@ class TestHandStrength(TestCase):
     def test_hand_strength_with_straight_flush_10_to_ace(self):
         hand = ["14c", "10c", "11c", "12c", "13c"]
         self.assertEqual(hand_strength(hand), 8)
+
+class TestTieBreakers(TestCase):
+    def test_straight_tie_breaker1(self):
+        numbers_hand1 = ["3","4","5","6","7"]
+        numbers_hand2 = ["2","3","4","5","6"]
+        result = straight_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_straight_tie_breaker2(self):
+        numbers_hand1 = ["2","3","4","5","6"]
+        numbers_hand2 = ["3","4","5","6","7"]
+        result = straight_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,2)
+
+    def test_straight_tie_breaker3(self):
+        numbers_hand1 = ["2","3","4","5","6"]
+        numbers_hand2 = ["2","3","4","5","6"]
+        result = straight_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,3)
 
 
 if __name__ == '__main__':
