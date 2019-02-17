@@ -1,4 +1,4 @@
-from poker import hand_strength, straight_tie, full_house_tie
+from poker import hand_strength, straight_tie, full_house_tie, four_of_a_kind_tie, high_card_tie
 import unittest
 from unittest import TestCase
 
@@ -49,36 +49,89 @@ class TestHandStrength(TestCase):
 
 class TestTieBreakers(TestCase):
     def test_straight_tie_breaker1(self):
-        numbers_hand1 = ["3","4","5","6","7"]
-        numbers_hand2 = ["2","3","4","5","6"]
+        numbers_hand1 = [3,4,5,6,7]
+        numbers_hand2 = [2,3,4,5,6]
         result = straight_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,1)
 
     def test_straight_tie_breaker2(self):
-        numbers_hand1 = ["2","3","4","5","6"]
-        numbers_hand2 = ["3","4","5","6","7"]
+        numbers_hand1 = [2,3,4,5,6]
+        numbers_hand2 = [3,4,5,6,7]
         result = straight_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,2)
 
     def test_straight_tie_breaker3(self):
-        numbers_hand1 = ["2","3","4","5","6"]
-        numbers_hand2 = ["2","3","4","5","6"]
+        numbers_hand1 = [2,3,4,5,6]
+        numbers_hand2 = [2,3,4,5,6]
         result = straight_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,3)
 
     def test_full_house_tie_breaker1(self):
-        numbers_hand1 = ["3","3","3","7","7"]
-        numbers_hand2 = ["2","2","2","5","5"]
+        numbers_hand1 = [3,3,3,7,7]
+        numbers_hand2 = [2,2,2,5,5]
         result = full_house_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,1)
 
     def test_full_house_tie_breaker2(self):
-        numbers_hand1 = ["2","2","2","8","8"]
-        numbers_hand2 = ["6","6","6","3","3"]
+        numbers_hand1 = [2,2,2,8,8]
+        numbers_hand2 = [6,6,6,3,3]
         result = full_house_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,2)
 
+    def test_four_of_a_kind_tie_breaker1(self):
+        numbers_hand1 = [3,3,3,3,7]
+        numbers_hand2 = [2,2,2,2,5]
+        result = four_of_a_kind_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
 
+    def test_four_of_a_kind_tie_breaker2(self):
+        numbers_hand1 = [2,2,2,2,8]
+        numbers_hand2 = [6,6,6,6,3]
+        result = four_of_a_kind_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,2)
 
+    def test_high_card_tie_breaker1(self): #player 1 has better high card
+        numbers_hand1 = [3,5,7,9,11]
+        numbers_hand2 = [2,4,6,8,10]
+        result = high_card_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_high_card_tie_breaker2(self): #player 1 has better second highest card
+        numbers_hand1 = [3,5,7,9,11]
+        numbers_hand2 = [2,4,6,8,11]
+        result = high_card_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_high_card_tie_breaker3(self): #player 1 has better third highest card
+        numbers_hand1 = [3,5,7,9,11]
+        numbers_hand2 = [2,4,6,9,11]
+        result = high_card_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_high_card_tie_breaker4(self): #player 1 has better fourth highest card
+        numbers_hand1 = [3,5,7,9,11]
+        numbers_hand2 = [2,4,7,9,11]
+        result = high_card_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_high_card_tie_breaker5(self): #player 1 has better fifth highest card
+        numbers_hand1 = [3,5,7,9,11]
+        numbers_hand2 = [2,5,7,9,11]
+        result = high_card_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_high_card_tie_breaker6(self): #player 2 has better high card
+        numbers_hand1 = [3,5,7,9,11]
+        numbers_hand2 = [4,6,8,10,12]
+        result = high_card_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,2)
+
+    def test_high_card_tie_breaker7(self): #tie
+        numbers_hand1 = [3,5,7,9,11]
+        numbers_hand2 = [3,5,7,9,11]
+        result = high_card_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,3)
+
+                
 if __name__ == '__main__':
     unittest.main()

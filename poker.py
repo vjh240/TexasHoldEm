@@ -103,7 +103,7 @@ def tie_breaker(hand1,hand2,rank):
     # elif rank == 4:
     #     straight_tie(numbers_hand1,numbers_hand2)
     # elif rank == 5:
-    #     flush_tie(numbers_hand1,numbers_hand2)
+    #     high_card_tie(numbers_hand1,numbers_hand2)
     # elif rank == 6:
     #     full_house_tie(numbers_hand1,numbers_hand2)
     # elif rank == 7:
@@ -137,6 +137,31 @@ def full_house_tie(numbers_hand1,numbers_hand2):
     else:
         return 2
 
+def four_of_a_kind_tie(numbers_hand1,numbers_hand2):
+    frequency_high1 = numbers_hand1.count(numbers_hand1[4])
+    if frequency_high1 == 4:
+        quad1 = numbers_hand1[4]
+    else:
+        quad1 = numbers_hand1[0]
+    frequency_high2 = numbers_hand2.count(numbers_hand1[4])
+    if frequency_high2 == 4:
+        quad2 = numbers_hand2[4]
+    else:
+        quad2 = numbers_hand2[0]
+    if quad1 > quad2:
+        return 1
+    else:
+        return 2
+
+def high_card_tie(numbers_hand1,numbers_hand2):
+    numbers_hand1.sort(reverse=True)
+    numbers_hand2.sort(reverse=True)
+    for x in range(5):
+        if numbers_hand1[x]>numbers_hand2[x]:
+            return 1
+        elif numbers_hand2[x]>numbers_hand1[x]:
+            return 2
+    return 3
 
 deck = FULL_DECK.copy()
 hand, deck = deal_hand(deck)
