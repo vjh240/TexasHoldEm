@@ -115,34 +115,34 @@ def straight_tie(numbers_hand1,numbers_hand2):
     else:
         return 3
 
-def full_house_tie(numbers_hand1,numbers_hand2): #gotta add pair comparison
-    frequency_high1 = numbers_hand1.count(numbers_hand1[4])
-    if frequency_high1 == 3:
-        triple1 = numbers_hand1[4]
-    else:
-        triple1 = numbers_hand1[0]
-    frequency_high2 = numbers_hand2.count(numbers_hand1[4])
-    if frequency_high2 == 3:
-        triple2 = numbers_hand2[4]
-    else:
-        triple2 = numbers_hand2[0]
+def full_house_tie(numbers_hand1,numbers_hand2):
+    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    triple1 = numbers_hand1[frequency1.index(3)]
+    triple2 = numbers_hand2[frequency2.index(3)]
     if triple1 > triple2:
+        return 1
+    elif triple2 > triple1:
+        return 2
+    pair1 = numbers_hand1[frequency1.index(2)]
+    pair2 = numbers_hand2[frequency2.index(2)]
+    if pair1 > pair2:
         return 1
     else:
         return 2
 
-def four_of_a_kind_tie(numbers_hand1,numbers_hand2): #gotta add kickers
-    frequency_high1 = numbers_hand1.count(numbers_hand1[4])
-    if frequency_high1 == 4:
-        quad1 = numbers_hand1[4]
-    else:
-        quad1 = numbers_hand1[0]
-    frequency_high2 = numbers_hand2.count(numbers_hand1[4])
-    if frequency_high2 == 4:
-        quad2 = numbers_hand2[4]
-    else:
-        quad2 = numbers_hand2[0]
+def four_of_a_kind_tie(numbers_hand1,numbers_hand2):
+    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    quad1 = numbers_hand1[frequency1.index(4)]
+    quad2 = numbers_hand2[frequency2.index(4)]
     if quad1 > quad2:
+        return 1
+    elif quad2 > quad1:
+        return 2
+    kicker1 = numbers_hand1[frequency1.index(1)]
+    kicker2 = numbers_hand2[frequency2.index(1)]
+    if kicker1 > kicker2:
         return 1
     else:
         return 2
@@ -157,7 +157,9 @@ def high_card_tie(numbers_hand1,numbers_hand2):
             return 2
     return 3
 
-def three_of_a_kind_tie(numbers_hand1,numbers_hand2): #gotta add kickers
+def three_of_a_kind_tie(numbers_hand1,numbers_hand2):
+    numbers_hand1.sort(reverse=True)
+    numbers_hand2.sort(reverse=True)
     frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
     frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
     triple1 = numbers_hand1[frequency1.index(3)]
@@ -165,6 +167,22 @@ def three_of_a_kind_tie(numbers_hand1,numbers_hand2): #gotta add kickers
     if triple1 > triple2:
         return 1
     elif triple2 > triple1:
+        return 2
+    kicker1_hand1 = numbers_hand1[frequency1.index(1)]
+    kicker1_hand2 = numbers_hand2[frequency2.index(1)]
+    if kicker1_hand1 > kicker1_hand2:
+        print(kicker1_hand1)
+        print(kicker1_hand2)
+        return 1
+    elif kicker1_hand2 > kicker1_hand1:
+        return 2
+    look_for_second_kicker1 = frequency1.index(1) + 1
+    look_for_second_kicker2 = frequency2.index(1) + 1
+    kicker2_hand1 = numbers_hand1[frequency1.index(1, look_for_second_kicker1)]
+    kicker2_hand2 = numbers_hand2[frequency2.index(1, look_for_second_kicker2)]
+    if kicker2_hand1 > kicker2_hand2:
+        return 1
+    else:
         return 2
 
 def two_pair_tie(numbers_hand1,numbers_hand2):
@@ -265,3 +283,8 @@ print("Loss: " + '{0:.4%}'.format(loss/len(hidden_hands)))
 
 # a possible opportunity to remove iterations:
 # if the players best hand is the river, they will tie with all other hand possibilities in which the river is their best hand
+
+#add betting rounds for players to elect to fold or check
+
+#add a hidden community cards object 5 cards>2cards>1card
+#loop through combinations of remaining hidden community cards at each iteration loop through combinations of hidden hands from the remaining deck

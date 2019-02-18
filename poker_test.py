@@ -66,27 +66,51 @@ class TestTieBreakers(TestCase):
         result = straight_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,3)
 
-    def test_full_house_tie_breaker1(self):
+    def test_full_house_tie_breaker1(self): #hand 1 triple wins
         numbers_hand1 = [3,3,3,7,7]
         numbers_hand2 = [2,2,2,5,5]
         result = full_house_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,1)
 
-    def test_full_house_tie_breaker2(self):
+    def test_full_house_tie_breaker2(self): #hand 1 pair wins
+        numbers_hand1 = [3,3,3,7,7]
+        numbers_hand2 = [3,3,3,6,6]
+        result = full_house_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_full_house_tie_breaker3(self): #hand 2 triple wins
         numbers_hand1 = [2,2,2,8,8]
         numbers_hand2 = [6,6,6,3,3]
         result = full_house_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,2)
 
-    def test_four_of_a_kind_tie_breaker1(self):
+    def test_full_house_tie_breaker4(self): #hand 2 pair wins
+        numbers_hand1 = [6,6,6,8,8]
+        numbers_hand2 = [6,6,6,10,10]
+        result = full_house_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,2)
+
+    def test_four_of_a_kind_tie_breaker1(self): #player 1 quad wins
         numbers_hand1 = [3,3,3,3,7]
         numbers_hand2 = [2,2,2,2,5]
         result = four_of_a_kind_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,1)
 
-    def test_four_of_a_kind_tie_breaker2(self):
+    def test_four_of_a_kind_tie_breaker2(self): #player 2 quad wins
         numbers_hand1 = [2,2,2,2,8]
         numbers_hand2 = [6,6,6,6,3]
+        result = four_of_a_kind_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,2)
+
+    def test_four_of_a_kind_tie_breaker3(self): #hand 1 kicker wins
+        numbers_hand1 = [2,2,2,2,8]
+        numbers_hand2 = [2,2,2,2,3]
+        result = four_of_a_kind_tie(numbers_hand1,numbers_hand2)
+        self.assertEqual(result,1)
+
+    def test_four_of_a_kind_tie_breaker4(self): #hand 2 kicker wins
+        numbers_hand1 = [6,6,6,6,8]
+        numbers_hand2 = [6,6,6,6,9]
         result = four_of_a_kind_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,2)
 
@@ -132,15 +156,39 @@ class TestTieBreakers(TestCase):
         result = high_card_tie(numbers_hand1,numbers_hand2)
         self.assertEqual(result,3)
 
-    def test_three_of_a_kind_tie_breaker1(self):
-        numbers_hand1 = [3, 3, 3, 6, 7]
-        numbers_hand2 = [2, 2, 2, 4, 5]
+    def test_three_of_a_kind_tie_breaker1(self): #hand1 triple wins
+        numbers_hand1 = [3, 3, 3, 5, 9]
+        numbers_hand2 = [2, 2, 2, 4, 6]
         result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
         self.assertEqual(result, 1)
 
-    def test_three_of_a_kind_tie_breaker2(self):
+    def test_three_of_a_kind_tie_breaker2(self): #hand1 kicker1 wins
+        numbers_hand1 = [3, 3, 3, 5, 7]
+        numbers_hand2 = [3, 3, 3, 4, 6]
+        result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_three_of_a_kind_tie_breaker3(self): #hand1 kicker2 wins
+        numbers_hand1 = [3, 3, 3, 6, 7]
+        numbers_hand2 = [3, 3, 3, 4, 7]
+        result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 1)
+
+    def test_three_of_a_kind_tie_breaker4(self): #player 2 triple wins
         numbers_hand1 = [2, 2, 2, 7, 8]
         numbers_hand2 = [6, 6, 6, 4, 3]
+        result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_three_of_a_kind_tie_breaker5(self): #player 2 kicker1 wins
+        numbers_hand1 = [6, 6, 6, 7, 8]
+        numbers_hand2 = [6, 6, 6, 4, 11]
+        result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
+        self.assertEqual(result, 2)
+
+    def test_three_of_a_kind_tie_breaker6(self): #player 2 kicker2 wins
+        numbers_hand1 = [6, 6, 6, 3, 8]
+        numbers_hand2 = [6, 6, 6, 7, 8]
         result = three_of_a_kind_tie(numbers_hand1, numbers_hand2)
         self.assertEqual(result, 2)
 
