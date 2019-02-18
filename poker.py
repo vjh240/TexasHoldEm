@@ -5,6 +5,15 @@ import sys
 
 FULL_DECK = set(["2h","3h","4h","5h","6h","7h","8h","9h","10h","11h","12h","13h","14h","2c","3c","4c","5c","6c","7c","8c","9c","10c","11c","12c","13c","14c","2s","3s","4s","5s","6s","7s","8s","9s","10s","11s","12s","13s","14s","2d","3d","4d","5d","6d","7d","8d","9d","10d","11d","12d","13d","14d"])
 RANKED_HANDS = ["a High Card","One Pair","Two Pair","Three of a Kind","a Straight","a Flush","a Full House","Four of a Kind","a Straight Flush"]
+HIGH_CARD = 0
+ONE_PAIR = 1
+TWO_PAIR = 2
+THREE_OF_A_KIND = 3
+STRAIGHT = 4
+FLUSH = 5
+FULL_HOUSE = 6
+FOUR_OF_A_KIND = 7
+STRAIGHT_FLUSH = 8
 
 def deal_hand(deck):
   hand = set(random.sample(deck,2))
@@ -39,42 +48,42 @@ def hand_strength(hand):
         #you do not need to check for full house or four of a kind since we know all the cards are one suit (all numbers must be different)
         is_straight = int(numbers[4]) - int(numbers[0]) == 4
         if is_straight:
-            return 8 #straight flush
+            return STRAIGHT_FLUSH
         else:
             if has_ace:
                 numbers[numbers.index(14)] = 1
                 numbers.sort()
                 is_straight = int(numbers[4]) - int(numbers[0]) == 4
                 if is_straight:
-                    return 8 #straight flush
+                    return STRAIGHT_FLUSH
                 else:
-                    return 5 #flush
-            return 5 #flush
+                    return FLUSH
+            return FLUSH
     x = len(set(numbers))
     if x == 4:
-        return 1 #One Pair
+        return ONE_PAIR
     elif x == 3:
         number_frequencies = [numbers.count(c) for c in numbers]
         if number_frequencies.count(3): #if a frequency of 3 is found then the hand is a three of a kind
-            return 3 #Three of a Kind
-        return 2 #Two Pair
+            return THREE_OF_A_KIND
+        return TWO_PAIR
     elif x == 2:
         if numbers.count(numbers[0]) == 1 or numbers.count(numbers[0]) == 4:
-            return 7 #four of a kind
-        return 6  # Full house
+            return FOUR_OF_A_KIND
+        return FULL_HOUSE
     else:
         is_straight = int(numbers[4]) - int(numbers[0]) == 4
         if is_straight:
-            return 4  # straight flush
+            return STRAIGHT
         if has_ace:
             numbers[numbers.index(14)] = 1
             numbers.sort()
             is_straight = int(numbers[4]) - int(numbers[0]) == 4
             if is_straight:
-                return 4  # straight
+                return STRAIGHT
             else:
-                return 0  # high card
-        return 0 #high card
+                return HIGH_CARD
+        return HIGH_CARD
     return -1 #something went wrong if we got to this point
 
 def rank(hand,community_cards):
@@ -97,23 +106,23 @@ def tie_breaker(hand1,hand2,rank):
     numbers_hand1.sort()
     numbers_hand2 = [int(n[:len(n) - 1]) for n in hand2]
     numbers_hand2.sort()
-    if rank == 0:
+    if rank == HIGH_CARD:
         return high_card_tie(numbers_hand1,numbers_hand2)
-    elif rank == 1:
+    elif rank == ONE_PAIR:
         return one_pair_tie(numbers_hand1,numbers_hand2)
-    elif rank == 2:
+    elif rank == TWO_PAIR:
         return two_pair_tie(numbers_hand1,numbers_hand2)
-    elif rank == 3:
+    elif rank == THREE_OF_A_KIND:
         return three_of_a_kind_tie(numbers_hand1,numbers_hand2)
-    elif rank == 4:
+    elif rank == STRAIGHT:
         return straight_tie(numbers_hand1,numbers_hand2)
-    elif rank == 5:
+    elif rank == FLUSH:
         return high_card_tie(numbers_hand1,numbers_hand2)
-    elif rank == 6:
+    elif rank == FULL_HOUSE:
         return full_house_tie(numbers_hand1,numbers_hand2)
-    elif rank == 7:
+    elif rank == FOUR_OF_A_KIND:
         return four_of_a_kind_tie(numbers_hand1,numbers_hand2)
-    elif rank == 8:
+    elif rank == STRAIGHT_FLUSH:
         return straight_tie(numbers_hand1,numbers_hand2)
     else:
         print ("ERROR")
