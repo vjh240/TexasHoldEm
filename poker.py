@@ -1,6 +1,7 @@
 import random
 from itertools import combinations
 import time
+import sys
 
 FULL_DECK = set(["2h","3h","4h","5h","6h","7h","8h","9h","10h","11h","12h","13h","14h","2c","3c","4c","5c","6c","7c","8c","9c","10c","11c","12c","13c","14c","2s","3s","4s","5s","6s","7s","8s","9s","10s","11s","12s","13s","14s","2d","3d","4d","5d","6d","7d","8d","9d","10d","11d","12d","13d","14d"])
 RANKED_HANDS = ["a High Card","One Pair","Two Pair","Three of a Kind","a Straight","a Flush","a Full House","Four of a Kind","a Straight Flush"]
@@ -10,10 +11,20 @@ def deal_hand(deck):
   deck = deck - hand
   return hand, deck
 
-def deal_community_cards(deck):
-    community_cards = set(random.sample(deck,5))
-    deck = deck - community_cards
-    return community_cards, deck
+def deal_flop(deck):
+    flop = set(random.sample(deck,3))
+    deck = deck - flop
+    return flop, deck
+
+def deal_turn(deck):
+    turn = set(random.sample(deck, 1))
+    deck = deck - turn
+    return turn, deck
+
+def deal_river(deck):
+    river = set(random.sample(deck, 1))
+    deck = deck - river
+    return river, deck
 
 def hand_strength(hand):
     has_ace = False
@@ -247,10 +258,45 @@ def one_pair_tie(numbers_hand1,numbers_hand2):
 
 deck = FULL_DECK.copy()
 hand, deck = deal_hand(deck)
-community_cards, deck = deal_community_cards(deck)
-rank_player_hand, player_hand = rank(hand,community_cards)
+hidden_community_cards = set(combinations(deck,5))
+print(len(hidden_community_cards))
 print("You were dealt a " + str(hand))
-print(community_cards)
+check_fold = input("Would you like to check or fold? (c/f)")
+if check_fold != "c":
+    sys.exit()
+
+flop, deck = deal_flop(deck)
+community_cards = flop
+hidden_community_cards = set(combinations(deck,2))
+print(len(hidden_community_cards))
+print("Yor hand: " + str(hand))
+print("The Flop: " + str(community_cards))
+check_fold = input("Would you like to check or fold? (c/f)")
+if check_fold != "c":
+    sys.exit()
+
+turn, deck = deal_turn(deck)
+community_cards = flop | turn
+hidden_community_cards = set(combinations(deck,1))
+print(len(hidden_community_cards))
+print("Yor hand: " + str(hand))
+print("The Turn: " + str(community_cards))
+check_fold = input("Would you like to check or fold? (c/f)")
+if check_fold != "c":
+    sys.exit()
+
+river, deck = deal_river(deck)
+community_cards = flop | turn | river
+print("Yor hand: " + str(hand))
+print("The River: " + str(community_cards))
+check_fold = input("Would you like to check or fold? (c/f)")
+if check_fold != "c":
+    sys.exit()
+
+rank_player_hand, player_hand = rank(hand,community_cards)
+print("---------------------------------------------")
+print("Yor hand: " + str(hand))
+print("The River: " + str(community_cards))
 print("You have " + str(RANKED_HANDS[rank_player_hand]) + " with the cards " + str(player_hand))
 
 hidden_hands = set(combinations(deck,2))
