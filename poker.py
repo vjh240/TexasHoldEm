@@ -269,7 +269,7 @@ flop, deck = deal_flop(deck)
 community_cards = flop
 hidden_community_cards = set(combinations(deck,2))
 print(len(hidden_community_cards))
-print("Yor hand: " + str(hand))
+print("Your hand: " + str(hand))
 print("The Flop: " + str(community_cards))
 check_fold = input("Would you like to check or fold? (c/f)")
 if check_fold != "c":
@@ -279,7 +279,7 @@ turn, deck = deal_turn(deck)
 community_cards = flop | turn
 hidden_community_cards = set(combinations(deck,1))
 print(len(hidden_community_cards))
-print("Yor hand: " + str(hand))
+print("Your hand: " + str(hand))
 print("The Turn: " + str(community_cards))
 check_fold = input("Would you like to check or fold? (c/f)")
 if check_fold != "c":
@@ -287,7 +287,7 @@ if check_fold != "c":
 
 river, deck = deal_river(deck)
 community_cards = flop | turn | river
-print("Yor hand: " + str(hand))
+print("Your hand: " + str(hand))
 print("The River: " + str(community_cards))
 check_fold = input("Would you like to check or fold? (c/f)")
 if check_fold != "c":
@@ -295,7 +295,7 @@ if check_fold != "c":
 
 rank_player_hand, player_hand = rank(hand,community_cards)
 print("---------------------------------------------")
-print("Yor hand: " + str(hand))
+print("Your hand: " + str(hand))
 print("The River: " + str(community_cards))
 print("You have " + str(RANKED_HANDS[rank_player_hand]) + " with the cards " + str(player_hand))
 
