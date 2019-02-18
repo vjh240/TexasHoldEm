@@ -27,14 +27,15 @@ def deal_river(deck):
     return river, deck
 
 def hand_strength(hand):
-    has_ace = False
     suits = [s[-1:] for s in hand]
+    all_one_suit = len(set(suits)) == 1
+
     numbers = [int(n[:len(n)-1]) for n in hand]
     numbers.sort()
+
     num_of_aces = numbers.count(14)
-    all_one_suit = len(set(suits)) == 1
-    if num_of_aces >= 1:
-        has_ace = True
+    has_ace = num_of_aces >= 1
+
     if all_one_suit:
         #you do not need to check for full house or four of a kind since we know all the cards are one suit (all numbers must be different)
         is_straight = int(numbers[4]) - int(numbers[0]) == 4
