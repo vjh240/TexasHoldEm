@@ -119,9 +119,9 @@ def tie_breaker(hand1,hand2,rank):
         print ("ERROR")
 
 def straight_tie(numbers_hand1,numbers_hand2):
-    if numbers_hand1[4]>numbers_hand2[4]:
+    if numbers_hand1[4] > numbers_hand2[4]:
         return 1
-    elif numbers_hand1[4]<numbers_hand2[4]:
+    elif numbers_hand1[4] < numbers_hand2[4]:
         return 2
     else:
         return 3
@@ -162,9 +162,9 @@ def high_card_tie(numbers_hand1,numbers_hand2):
     numbers_hand1.sort(reverse=True)
     numbers_hand2.sort(reverse=True)
     for x in range(5):
-        if numbers_hand1[x]>numbers_hand2[x]:
+        if numbers_hand1[x] > numbers_hand2[x]:
             return 1
-        elif numbers_hand2[x]>numbers_hand1[x]:
+        elif numbers_hand2[x] > numbers_hand1[x]:
             return 2
     return 3
 
