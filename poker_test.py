@@ -199,8 +199,8 @@ class TestTieBreakers(TestCase):
         self.assertEqual(result, 1)
 
     def test_one_pair_tie_breaker3(self): #player 1 kicker2 wins
-        numbers_hand1 = [3, 6, 7, 8, 8]
-        numbers_hand2 = [3, 5, 7, 8, 8]
+        numbers_hand1 = [9, 12, 13, 10, 10]
+        numbers_hand2 = [4, 11, 13, 10, 10]
         result = one_pair_tie(numbers_hand1, numbers_hand2)
         self.assertEqual(result, 1)
 

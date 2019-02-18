@@ -67,8 +67,8 @@ def hand_strength(hand):
     return -1 #something went wrong if we got to this point
 
 def rank(hand,community_cards):
-    all_seven_cards = hand | community_cards
-    hands = combinations(all_seven_cards, 5)
+    all_cards = hand | community_cards
+    hands = combinations(all_cards, 5)
     max_rank = -1
     for h in hands:
         result = hand_strength(h)
@@ -87,23 +87,23 @@ def tie_breaker(hand1,hand2,rank):
     numbers_hand2 = [int(n[:len(n) - 1]) for n in hand2]
     numbers_hand2.sort()
     if rank == 0:
-        high_card_tie(numbers_hand1,numbers_hand2)
+        return high_card_tie(numbers_hand1,numbers_hand2)
     elif rank == 1:
-        one_pair_tie(numbers_hand1,numbers_hand2)
+        return one_pair_tie(numbers_hand1,numbers_hand2)
     elif rank == 2:
-        two_pair_tie(numbers_hand1,numbers_hand2)
+        return two_pair_tie(numbers_hand1,numbers_hand2)
     elif rank == 3:
-        three_of_a_kind_tie(numbers_hand1,numbers_hand2)
+        return three_of_a_kind_tie(numbers_hand1,numbers_hand2)
     elif rank == 4:
-        straight_tie(numbers_hand1,numbers_hand2)
+        return straight_tie(numbers_hand1,numbers_hand2)
     elif rank == 5:
-        high_card_tie(numbers_hand1,numbers_hand2)
+        return high_card_tie(numbers_hand1,numbers_hand2)
     elif rank == 6:
-        full_house_tie(numbers_hand1,numbers_hand2)
+        return full_house_tie(numbers_hand1,numbers_hand2)
     elif rank == 7:
-        four_of_a_kind_tie(numbers_hand1,numbers_hand2)
+        return four_of_a_kind_tie(numbers_hand1,numbers_hand2)
     elif rank == 8:
-        straight_tie(numbers_hand1,numbers_hand2)
+        return straight_tie(numbers_hand1,numbers_hand2)
     else:
         print ("ERROR")
 
@@ -115,7 +115,7 @@ def straight_tie(numbers_hand1,numbers_hand2):
     else:
         return 3
 
-def full_house_tie(numbers_hand1,numbers_hand2):
+def full_house_tie(numbers_hand1,numbers_hand2): #gotta add pair comparison
     frequency_high1 = numbers_hand1.count(numbers_hand1[4])
     if frequency_high1 == 3:
         triple1 = numbers_hand1[4]
@@ -131,7 +131,7 @@ def full_house_tie(numbers_hand1,numbers_hand2):
     else:
         return 2
 
-def four_of_a_kind_tie(numbers_hand1,numbers_hand2):
+def four_of_a_kind_tie(numbers_hand1,numbers_hand2): #gotta add kickers
     frequency_high1 = numbers_hand1.count(numbers_hand1[4])
     if frequency_high1 == 4:
         quad1 = numbers_hand1[4]
@@ -157,7 +157,7 @@ def high_card_tie(numbers_hand1,numbers_hand2):
             return 2
     return 3
 
-def three_of_a_kind_tie(numbers_hand1,numbers_hand2):
+def three_of_a_kind_tie(numbers_hand1,numbers_hand2): #gotta add kickers
     frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
     frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
     triple1 = numbers_hand1[frequency1.index(3)]
@@ -247,10 +247,10 @@ for h in hidden_hands:
     if rank_hidden_hand > rank_player_hand:
         loss += 1
     elif rank_hidden_hand == rank_player_hand:
-        hidden_tie_break_result = tie_breaker(player_hand,hidden_hand,rank_player_hand)
-        if hidden_tie_break_result == 1:
+        player_hand_vs_hidden_hand_result = tie_breaker(player_hand,hidden_hand,rank_player_hand)
+        if player_hand_vs_hidden_hand_result == 1:
             win +=1
-        elif hidden_tie_break_result == 2:
+        elif player_hand_vs_hidden_hand_result == 2:
             loss += 1
         else:
             tie += 1
