@@ -71,11 +71,11 @@ def rank(hand,community_cards):
     hands = combinations(all_cards, 5)
     max_rank = -1
     for h in hands:
-        result = hand_strength(h)
-        if result > max_rank:
-            max_rank = result
+        hand_rank = hand_strength(h)
+        if hand_rank > max_rank:
+            max_rank = hand_rank
             max_hand = h
-        elif result == max_rank:
+        elif hand_rank == max_rank:
             best_hand = tie_breaker(h,max_hand,max_rank)
             if best_hand == 1:
                 max_hand = h
@@ -116,33 +116,33 @@ def straight_tie(numbers_hand1,numbers_hand2):
         return 3
 
 def full_house_tie(numbers_hand1,numbers_hand2):
-    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
-    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
-    triple1 = numbers_hand1[frequency1.index(3)]
-    triple2 = numbers_hand2[frequency2.index(3)]
-    if triple1 > triple2:
+    frequency_hand1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency_hand2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    triple_hand1 = numbers_hand1[frequency_hand1.index(3)]
+    triple_hand2 = numbers_hand2[frequency_hand2.index(3)]
+    if triple_hand1 > triple_hand2:
         return 1
-    elif triple2 > triple1:
+    elif triple_hand2 > triple_hand1:
         return 2
-    pair1 = numbers_hand1[frequency1.index(2)]
-    pair2 = numbers_hand2[frequency2.index(2)]
-    if pair1 > pair2:
+    pair1_hand1 = numbers_hand1[frequency_hand1.index(2)]
+    pair1_hand2 = numbers_hand2[frequency_hand2.index(2)]
+    if pair1_hand1 > pair1_hand2:
         return 1
     else:
         return 2
 
 def four_of_a_kind_tie(numbers_hand1,numbers_hand2):
-    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
-    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
-    quad1 = numbers_hand1[frequency1.index(4)]
-    quad2 = numbers_hand2[frequency2.index(4)]
-    if quad1 > quad2:
+    frequency_hand1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency_hand2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    quad_hand1 = numbers_hand1[frequency_hand1.index(4)]
+    quad_hand2 = numbers_hand2[frequency_hand2.index(4)]
+    if quad_hand1 > quad_hand2:
         return 1
-    elif quad2 > quad1:
+    elif quad_hand2 > quad_hand1:
         return 2
-    kicker1 = numbers_hand1[frequency1.index(1)]
-    kicker2 = numbers_hand2[frequency2.index(1)]
-    if kicker1 > kicker2:
+    kicker1_hand1 = numbers_hand1[frequency_hand1.index(1)]
+    kicker1_hand2 = numbers_hand2[frequency_hand2.index(1)]
+    if kicker1_hand1 > kicker1_hand2:
         return 1
     else:
         return 2
@@ -160,26 +160,24 @@ def high_card_tie(numbers_hand1,numbers_hand2):
 def three_of_a_kind_tie(numbers_hand1,numbers_hand2):
     numbers_hand1.sort(reverse=True)
     numbers_hand2.sort(reverse=True)
-    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
-    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
-    triple1 = numbers_hand1[frequency1.index(3)]
-    triple2 = numbers_hand2[frequency2.index(3)]
-    if triple1 > triple2:
+    frequency_hand1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency_hand2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    triple_hand1 = numbers_hand1[frequency_hand1.index(3)]
+    triple_hand2 = numbers_hand2[frequency_hand2.index(3)]
+    if triple_hand1 > triple_hand2:
         return 1
-    elif triple2 > triple1:
+    elif triple_hand2 > triple_hand1:
         return 2
-    kicker1_hand1 = numbers_hand1[frequency1.index(1)]
-    kicker1_hand2 = numbers_hand2[frequency2.index(1)]
+    kicker1_hand1 = numbers_hand1[frequency_hand1.index(1)]
+    kicker1_hand2 = numbers_hand2[frequency_hand2.index(1)]
     if kicker1_hand1 > kicker1_hand2:
-        print(kicker1_hand1)
-        print(kicker1_hand2)
         return 1
     elif kicker1_hand2 > kicker1_hand1:
         return 2
-    look_for_second_kicker1 = frequency1.index(1) + 1
-    look_for_second_kicker2 = frequency2.index(1) + 1
-    kicker2_hand1 = numbers_hand1[frequency1.index(1, look_for_second_kicker1)]
-    kicker2_hand2 = numbers_hand2[frequency2.index(1, look_for_second_kicker2)]
+    look_for_kicker2_hand1 = frequency_hand1.index(1) + 1
+    look_for_kicker2_hand2 = frequency_hand2.index(1) + 1
+    kicker2_hand1 = numbers_hand1[frequency_hand1.index(1, look_for_kicker2_hand1)]
+    kicker2_hand2 = numbers_hand2[frequency_hand2.index(1, look_for_kicker2_hand2)]
     if kicker2_hand1 > kicker2_hand2:
         return 1
     else:
@@ -188,59 +186,59 @@ def three_of_a_kind_tie(numbers_hand1,numbers_hand2):
 def two_pair_tie(numbers_hand1,numbers_hand2):
     numbers_hand1.sort(reverse=True)
     numbers_hand2.sort(reverse=True)
-    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
-    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
-    pair1_hand1 = numbers_hand1[frequency1.index(2)]
-    pair1_hand2 = numbers_hand2[frequency2.index(2)]
+    frequency_hand1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency_hand2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    pair1_hand1 = numbers_hand1[frequency_hand1.index(2)]
+    pair1_hand2 = numbers_hand2[frequency_hand2.index(2)]
     if pair1_hand1 > pair1_hand2:
         return 1
     elif pair1_hand2 > pair1_hand1:
         return 2
-    look_for_next_pair1 = frequency1.index(2) + 2
-    look_for_next_pair2 = frequency2.index(2) + 2
-    pair2_hand1 = numbers_hand1[frequency1.index(2,look_for_next_pair1)]
-    pair2_hand2 = numbers_hand2[frequency2.index(2,look_for_next_pair2)]
+    look_for_pair2_hand1 = frequency_hand1.index(2) + 2
+    look_for_pair2_hand2 = frequency_hand2.index(2) + 2
+    pair2_hand1 = numbers_hand1[frequency_hand1.index(2,look_for_pair2_hand1)]
+    pair2_hand2 = numbers_hand2[frequency_hand2.index(2,look_for_pair2_hand2)]
     if pair2_hand1 > pair2_hand2:
         return 1
     elif pair2_hand2 > pair2_hand1:
         return 2
-    kicker_hand1 = numbers_hand1[frequency1.index(1)]
-    kicker_hand2 = numbers_hand2[frequency2.index(1)]
-    if kicker_hand1 > kicker_hand2:
+    kicker1_hand1 = numbers_hand1[frequency_hand1.index(1)]
+    kicker1_hand2 = numbers_hand2[frequency_hand2.index(1)]
+    if kicker1_hand1 > kicker1_hand2:
         return 1
-    elif kicker_hand2 > kicker_hand1:
+    elif kicker1_hand2 > kicker1_hand1:
         return 2
     return 3
 
 def one_pair_tie(numbers_hand1,numbers_hand2):
     numbers_hand1.sort(reverse=True)
     numbers_hand2.sort(reverse=True)
-    frequency1 = [numbers_hand1.count(card) for card in numbers_hand1]
-    frequency2 = [numbers_hand2.count(card) for card in numbers_hand2]
-    pair_hand1 = numbers_hand1[frequency1.index(2)]
-    pair_hand2 = numbers_hand2[frequency2.index(2)]
+    frequency_hand1 = [numbers_hand1.count(card) for card in numbers_hand1]
+    frequency_hand2 = [numbers_hand2.count(card) for card in numbers_hand2]
+    pair_hand1 = numbers_hand1[frequency_hand1.index(2)]
+    pair_hand2 = numbers_hand2[frequency_hand2.index(2)]
     if pair_hand1 > pair_hand2:
         return 1
     elif pair_hand2 > pair_hand1:
         return 2
-    kicker1_hand1 = numbers_hand1[frequency1.index(1)]
-    kicker1_hand2 = numbers_hand2[frequency2.index(1)]
+    kicker1_hand1 = numbers_hand1[frequency_hand1.index(1)]
+    kicker1_hand2 = numbers_hand2[frequency_hand2.index(1)]
     if kicker1_hand1 > kicker1_hand2:
         return 1
     elif kicker1_hand2 > kicker1_hand1:
         return 2
-    look_for_second_kicker1 = frequency1.index(1) + 1
-    look_for_second_kicker2 = frequency2.index(1) + 1
-    kicker2_hand1 = numbers_hand1[frequency1.index(1,look_for_second_kicker1)]
-    kicker2_hand2 = numbers_hand2[frequency2.index(1,look_for_second_kicker2)]
+    look_for_kicker2_hand1 = frequency_hand1.index(1) + 1
+    look_for_kicker2_hand2 = frequency_hand2.index(1) + 1
+    kicker2_hand1 = numbers_hand1[frequency_hand1.index(1,look_for_kicker2_hand1)]
+    kicker2_hand2 = numbers_hand2[frequency_hand2.index(1,look_for_kicker2_hand2)]
     if kicker2_hand1 > kicker2_hand2:
         return 1
     elif kicker2_hand2 > kicker2_hand1:
         return 2
-    look_for_third_kicker1 = frequency1.index(1,look_for_second_kicker1) + 1
-    look_for_third_kicker2 = frequency2.index(1,look_for_second_kicker2) + 1
-    kicker3_hand1 = numbers_hand1[frequency1.index(1, look_for_third_kicker1)]
-    kicker3_hand2 = numbers_hand2[frequency2.index(1, look_for_third_kicker2)]
+    look_for_kicker3_hand1 = frequency_hand1.index(1,look_for_kicker2_hand1) + 1
+    look_for_kicker3_hand2 = frequency_hand2.index(1,look_for_kicker2_hand2) + 1
+    kicker3_hand1 = numbers_hand1[frequency_hand1.index(1, look_for_kicker3_hand1)]
+    kicker3_hand2 = numbers_hand2[frequency_hand2.index(1, look_for_kicker3_hand2)]
     if kicker3_hand1 > kicker3_hand2:
         return 1
     elif kicker3_hand2 > kicker3_hand1:
